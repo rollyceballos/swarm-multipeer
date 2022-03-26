@@ -1,0 +1,78 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.6 (swiftlang-5.6.0.323.62 clang-1316.0.20.8)
+// swift-module-flags: -target x86_64-apple-ios15.4-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name SwarmMultiPeer
+import Combine
+import Foundation
+import MultipeerConnectivity
+@_exported import SwarmMultiPeer
+import Swift
+import _Concurrency
+import os
+public struct Swarm {
+  public init()
+}
+public class HostPairState {
+  public init(_ pairingKey: Swift.String)
+  public init?()
+  @objc deinit
+}
+public enum SwarmPairingError : Swift.String, Swift.Error {
+  case notPaired
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+@objc public class SwarmClient : ObjectiveC.NSObject, Foundation.ObservableObject {
+  @objc dynamic public var connectedPeers: [MultipeerConnectivity.MCPeerID]
+  public init(_ groupId: Swift.String, deviceName: Swift.String, pairing: SwarmMultiPeer.HostPairState, processData: @escaping (Foundation.Data) -> Swift.Void)
+  public func start()
+  public func stop()
+  @objc deinit
+  public typealias ObjectWillChangePublisher = Combine.ObservableObjectPublisher
+}
+extension SwarmMultiPeer.SwarmClient : MultipeerConnectivity.MCNearbyServiceBrowserDelegate {
+  @objc dynamic public func browser(_ browser: MultipeerConnectivity.MCNearbyServiceBrowser, didNotStartBrowsingForPeers error: Swift.Error)
+  @objc dynamic public func browser(_ browser: MultipeerConnectivity.MCNearbyServiceBrowser, foundPeer peerID: MultipeerConnectivity.MCPeerID, withDiscoveryInfo info: [Swift.String : Swift.String]?)
+  @objc dynamic public func browser(_ browser: MultipeerConnectivity.MCNearbyServiceBrowser, lostPeer peerID: MultipeerConnectivity.MCPeerID)
+}
+extension SwarmMultiPeer.SwarmClient : MultipeerConnectivity.MCSessionDelegate {
+  @objc dynamic public func session(_ session: MultipeerConnectivity.MCSession, peer peerID: MultipeerConnectivity.MCPeerID, didChange state: MultipeerConnectivity.MCSessionState)
+  @objc dynamic public func session(_ session: MultipeerConnectivity.MCSession, didReceive data: Foundation.Data, fromPeer peerID: MultipeerConnectivity.MCPeerID)
+  @objc dynamic public func session(_ session: MultipeerConnectivity.MCSession, didReceive stream: Foundation.InputStream, withName streamName: Swift.String, fromPeer peerID: MultipeerConnectivity.MCPeerID)
+  @objc dynamic public func session(_ session: MultipeerConnectivity.MCSession, didStartReceivingResourceWithName resourceName: Swift.String, fromPeer peerID: MultipeerConnectivity.MCPeerID, with progress: Foundation.Progress)
+  @objc dynamic public func session(_ session: MultipeerConnectivity.MCSession, didFinishReceivingResourceWithName resourceName: Swift.String, fromPeer peerID: MultipeerConnectivity.MCPeerID, at localURL: Foundation.URL?, withError error: Swift.Error?)
+}
+public typealias ContextData = [Swift.String : Swift.String]
+@objc public class SwarmHost : ObjectiveC.NSObject, Foundation.ObservableObject {
+  @objc dynamic public var connectedPeers: [MultipeerConnectivity.MCPeerID]
+  public init(_ groupId: Swift.String, processData: @escaping (Foundation.Data) -> Swift.Void)
+  public func start()
+  public func stop()
+  @objc deinit
+  public typealias ObjectWillChangePublisher = Combine.ObservableObjectPublisher
+}
+extension SwarmMultiPeer.SwarmHost : MultipeerConnectivity.MCNearbyServiceAdvertiserDelegate {
+  @objc dynamic public func advertiser(_ advertiser: MultipeerConnectivity.MCNearbyServiceAdvertiser, didNotStartAdvertisingPeer error: Swift.Error)
+  @objc dynamic public func advertiser(_ advertiser: MultipeerConnectivity.MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MultipeerConnectivity.MCPeerID, withContext context: Foundation.Data?, invitationHandler: @escaping (Swift.Bool, MultipeerConnectivity.MCSession?) -> Swift.Void)
+}
+extension SwarmMultiPeer.SwarmHost : MultipeerConnectivity.MCSessionDelegate {
+  @objc dynamic public func session(_ session: MultipeerConnectivity.MCSession, peer peerID: MultipeerConnectivity.MCPeerID, didChange state: MultipeerConnectivity.MCSessionState)
+  @objc dynamic public func session(_ session: MultipeerConnectivity.MCSession, didReceive data: Foundation.Data, fromPeer peerID: MultipeerConnectivity.MCPeerID)
+  @objc dynamic public func session(_ session: MultipeerConnectivity.MCSession, didReceive stream: Foundation.InputStream, withName streamName: Swift.String, fromPeer peerID: MultipeerConnectivity.MCPeerID)
+  @objc dynamic public func session(_ session: MultipeerConnectivity.MCSession, didStartReceivingResourceWithName resourceName: Swift.String, fromPeer peerID: MultipeerConnectivity.MCPeerID, with progress: Foundation.Progress)
+  @objc dynamic public func session(_ session: MultipeerConnectivity.MCSession, didFinishReceivingResourceWithName resourceName: Swift.String, fromPeer peerID: MultipeerConnectivity.MCPeerID, at localURL: Foundation.URL?, withError error: Swift.Error?)
+}
+extension SwarmMultiPeer.SwarmHost {
+  public func newKey() -> UIKit.UIImage?
+  public func clearKey()
+}
+extension MultipeerConnectivity.MCSessionState : Swift.CustomDebugStringConvertible {
+  public var debugDescription: Swift.String {
+    get
+  }
+}
+extension SwarmMultiPeer.SwarmPairingError : Swift.Equatable {}
+extension SwarmMultiPeer.SwarmPairingError : Swift.Hashable {}
+extension SwarmMultiPeer.SwarmPairingError : Swift.RawRepresentable {}

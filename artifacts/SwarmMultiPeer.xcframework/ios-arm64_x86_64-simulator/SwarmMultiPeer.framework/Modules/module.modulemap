@@ -1,0 +1,11 @@
+framework module SwarmMultiPeer {
+  umbrella header "SwarmMultiPeer.h"
+
+  export *
+  module * { export * }
+}
+
+module SwarmMultiPeer.Swift {
+    header "SwarmMultiPeer-Swift.h"
+    requires objc
+}
